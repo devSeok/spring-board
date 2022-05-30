@@ -1,6 +1,7 @@
 package com.board.springboard.controllers;
 
 import com.board.springboard.dto.BoardItemDto;
+import com.board.springboard.dto.BoardListDto;
 import com.board.springboard.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -19,16 +20,14 @@ public class IndexController {
 
     @GetMapping
     public String index(Model model) {
+        List<BoardListDto> boardList = boardService.getList();
+        model.addAttribute("boardList", boardList);
 
-        List<BoardItemDto> list = boardService.getList();
-
-        System.out.println(list.toString());
         return "board/index";
     }
 
     @GetMapping("/write")
     public String write(Model model) {
-
         model.addAttribute("item", new BoardItemDto());
 
         return "board/write";
@@ -36,7 +35,6 @@ public class IndexController {
 
     @PostMapping("/write")
     public String addWrite(@ModelAttribute BoardItemDto boardItemDto) {
-
         boardService.save(boardItemDto);
 
         return "board/index";

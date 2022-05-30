@@ -1,6 +1,7 @@
 package com.board.springboard.domain.board;
 
 import com.board.springboard.dto.BoardItemDto;
+import com.board.springboard.dto.BoardListDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +16,14 @@ import static com.board.springboard.domain.board.QBoard.board;
 public class BoardQueryRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
-    public List<BoardItemDto> getList() {
+    public List<BoardListDto> getList() {
         return jpaQueryFactory
                 .select(Projections.constructor(
-                        BoardItemDto.class,
-                        board.title,
+                        BoardListDto.class,
+                        board.id,
                         board.name,
-                        board.content
+                        board.title,
+                        board.createdDate
                 ))
                 .from(board)
                 .fetch();
